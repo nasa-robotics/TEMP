@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сигурност · Етап 1 · Монтажи Ко</title>
+<style>
+/* =====================================================================
+   NR-20261007-MK-DK · План за сигурност, Етап 1 · Монтажи Ко ЕООД
+   Един блок със стилове. Нула външни ресурси.
+   ===================================================================== */
+
+/* --- палитра (раздел 8 от фирмената идентичност) --- */
+:root{
+  --void:#070C14; --deep:#0D1626; --panel:#132033; --line:#22334D;
+  --cyan:#4FD8E8; --orange:#F5A93F; --ink:#16202E; --rule:#DCE4EF;
+  --grey:#5A6B80; --bg:#EEF3F9; --red:#C0392B; --amber:#B06A00; --green:#0E7C47;
+  --mono: ui-monospace, "Cascadia Code", "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, "Liberation Mono", monospace;
+  --sans: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+  font-size:15.5px; line-height:1.6;
+}
+a{ color:inherit; }
+
+/* ============================================================
+   ЛОГО — код от фирмената идентичност, раздел 1.1. НЕ СЕ ПИПА.
+   ============================================================ */
+.nr-logo{ --nr-size:60px; display:flex; align-items:center; gap:14px; }
+.nr-logo .nr-word{
+  font-size:calc(var(--nr-size) * .27); letter-spacing:.22em;
+  text-transform:uppercase; font-weight:700; white-space:nowrap;
+}
+.nr-atom-live{
+  position:relative; width:var(--nr-size); height:var(--nr-size);
+  flex:0 0 var(--nr-size); display:flex; align-items:center; justify-content:center;
+  perspective:calc(900px * var(--nr-size) / 56); transform-style:preserve-3d;
+}
+.nr-atom-live .nr-scale{
+  position:relative; width:60px; height:60px;
+  display:flex; align-items:center; justify-content:center;
+  transform:scale(calc(var(--nr-size) / 60)); transform-origin:center;
+  transform-style:preserve-3d;
+}
+.nr-glow{
+  position:absolute; inset:0; border-radius:50%;
+  background:radial-gradient(circle,rgba(59,130,246,.6) 0%,rgba(59,130,246,0) 70%);
+  filter:blur(12px); z-index:-1; animation:nr-pulse 3s ease-in-out infinite;
+}
+@keyframes nr-pulse{ 0%,100%{opacity:.75} 50%{opacity:1} }
+.nr-core{
+  position:absolute; top:50%; left:50%; width:40px; height:40px; margin:-20px 0 0 -20px;
+  border-radius:50%; background:radial-gradient(circle at 35% 35%,#8CC0FC,#1E40AF);
+  box-shadow:inset -5px -5px 10px rgba(6,16,30,.5),0 0 15px rgba(37,99,235,.5);
+  display:flex; align-items:center; justify-content:center; transform-style:preserve-3d;
+}
+.nr-core svg{ height:13px; width:auto; display:block; overflow:visible; }
+.nr-plane{ position:absolute; inset:0; transform-style:preserve-3d; pointer-events:none; }
+.nr-ring{ position:absolute; inset:0; border-radius:50%; border:1px solid; }
+.nr-ring-y{ border-color:rgba(251,191,36,.75); }
+.nr-ring-b{ border-color:rgba(59,130,246,.75); }
+.nr-arm{ position:absolute; inset:0; transform-style:preserve-3d; }
+.nr-orb{ position:absolute; top:50%; left:50%; transform-style:preserve-3d;
+  transform:translate(-50%,-50%) translateX(30px); }
+.nr-c1,.nr-c2,.nr-c3{ display:block; transform-style:preserve-3d; }
+.nr-el{ display:block; width:9px; height:9px; border-radius:50%;
+  box-shadow:inset -2px -2px 4px rgba(6,16,30,.6); }
+.nr-el-b{ background:radial-gradient(circle at 30% 30%,#93C5FD,#3B82F6 50%,#1E40AF 100%);
+  box-shadow:0 0 12px #3B82F6,0 0 20px rgba(59,130,246,.8),inset -2px -2px 4px rgba(6,16,30,.6); }
+.nr-el-y{ background:radial-gradient(circle at 30% 30%,#FDE68A,#FBBF24 50%,#B45309 100%);
+  box-shadow:0 0 12px #FBBF24,0 0 20px rgba(251,191,36,.8),inset -2px -2px 4px rgba(6,16,30,.6); }
+.nr-p-y{ animation:nr-precess1 15s linear infinite; }
+.nr-p-b{ animation:nr-precess2 18s linear infinite; }
+.nr-a-y{ animation:nr-armfwd 9s linear infinite; }
+.nr-a-b{ animation:nr-armfwd 10.8s linear infinite; }
+.nr-a-y .nr-c1{ animation:nr-armback 9s linear infinite; }
+.nr-a-b .nr-c1{ animation:nr-armback 10.8s linear infinite; }
+.nr-c2{ transform:rotateX(-65deg); }
+.nr-p-y .nr-c3{ animation:nr-precess1back 15s linear infinite; }
+.nr-p-b .nr-c3{ animation:nr-precess2back 18s linear infinite; }
+@keyframes nr-armfwd { from{transform:rotateZ(0)} to{transform:rotateZ(360deg)} }
+@keyframes nr-armback{ from{transform:rotateZ(0)} to{transform:rotateZ(-360deg)} }
+@keyframes nr-precess1{ from{transform:rotateZ(-22deg) rotateX(65deg)}
+                        to  {transform:rotateZ(338deg) rotateX(65deg)} }
+@keyframes nr-precess2{ from{transform:rotateZ(38deg)  rotateX(65deg)}
+                        to  {transform:rotateZ(398deg) rotateX(65deg)} }
+@keyframes nr-precess1back{ from{transform:rotateZ(22deg)}  to{transform:rotateZ(-338deg)} }
+@keyframes nr-precess2back{ from{transform:rotateZ(-38deg)} to{transform:rotateZ(-398deg)} }
+.nr-atom-print{ display:none; width:var(--nr-size); height:var(--nr-size);
+  flex:0 0 var(--nr-size); }
+@media print{
+  .nr-atom-live{ display:none !important; }
+  .nr-atom-print{ display:block !important; }
+}
+
+/* ============================================================
+   ЛЕНТА ЗА ПЕЧАТ (само на екран)
+   ============================================================ */
+.printbar{
+  position:sticky; top:0; z-index:50; background:rgba(7,12,20,.92);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line); color:#C9D6E6;
+}
+.printbar .in{
+  max-width:1040px; margin:0 auto; padding:10px 16px;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between;
+}
+.printbar .docno{ font-family:var(--mono); font-size:12.5px; letter-spacing:.12em; color:var(--cyan); }
+.printbar .docno span{ color:#7D8EA5; }
+.btns{ display:flex; gap:8px; flex-wrap:wrap; }
+.btn{
+  font-family:var(--mono); font-size:12.5px; letter-spacing:.08em; text-transform:uppercase;
+  border:1px solid var(--line); background:var(--panel); color:#DCE7F5;
+  padding:9px 14px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+  transition:border-color .2s, box-shadow .2s, color .2s;
+}
+.btn:hover{ border-color:var(--cyan); box-shadow:0 0 16px rgba(79,216,232,.25); color:#fff; }
+.btn.primary{ background:linear-gradient(180deg,#14324A,#0F2236); border-color:#2B6A80; color:#E9FBFF; }
+.btn svg{ width:15px; height:15px; }
+
+/* ============================================================
+   ГЛАВА — тъмна командна зала с мрежа и HUD скоби
+   ============================================================ */
+.hero{
+  position:relative; background:var(--void); color:#E6EEF8; overflow:hidden;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+.hero::before{ /* мрежата */
+  content:""; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(79,216,232,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,216,232,.07) 1px, transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse at 70% 30%, #000 30%, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at 70% 30%, #000 30%, transparent 80%);
+}
+.hero::after{ /* цианово сияние */
+  content:""; position:absolute; width:620px; height:620px; right:-180px; top:-260px;
+  background:radial-gradient(circle, rgba(79,216,232,.20), rgba(79,216,232,0) 65%);
+  pointer-events:none;
+}
+.hero .in{ position:relative; z-index:1; max-width:1040px; margin:0 auto; padding:28px 16px 34px; }
+.hero-top{ display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+.hero .nr-word{ color:#F2F6FC; }
+.meta{
+  font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:#8FA3BC;
+  display:grid; grid-template-columns:auto auto; gap:2px 14px; text-transform:uppercase;
+}
+.meta b{ color:#E6EEF8; font-weight:600; }
+.meta .live{ color:var(--cyan); text-shadow:0 0 10px rgba(79,216,232,.6); }
+
+.hud{
+  position:relative; margin-top:30px; padding:26px 26px 24px;
+  background:linear-gradient(180deg, rgba(19,32,51,.85), rgba(13,22,38,.85));
+  border:1px solid rgba(34,51,77,.9); border-radius:4px;
+}
+.hud .c{ position:absolute; width:18px; height:18px; border-color:var(--cyan); border-style:solid;
+  filter:drop-shadow(0 0 4px rgba(79,216,232,.8)); }
+.hud .c.tl{ top:-1px; left:-1px; border-width:2px 0 0 2px; }
+.hud .c.tr{ top:-1px; right:-1px; border-width:2px 2px 0 0; }
+.hud .c.bl{ bottom:-1px; left:-1px; border-width:0 0 2px 2px; }
+.hud .c.br{ bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
+.kicker{ font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--orange); text-transform:uppercase; }
+.hero h1{ margin:8px 0 10px; font-size:clamp(28px, 4.6vw, 44px); line-height:1.1; letter-spacing:-.01em; color:#fff; }
+.hero h1 em{ font-style:normal; color:var(--cyan); text-shadow:0 0 22px rgba(79,216,232,.55); }
+.hero .lead{ max-width:640px; color:#B9C8DA; margin:0; font-size:16px; }
+
+.hud-grid{ display:grid; grid-template-columns:1fr 250px; gap:28px; align-items:center; }
+.dial{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+.dial svg{ width:150px; height:150px; overflow:visible; }
+.dial .lbl{ font-family:var(--mono); font-size:11.5px; letter-spacing:.18em; color:#8FA3BC; text-transform:uppercase; text-align:center; }
+.ring-bg{ fill:none; stroke:#1C2B42; stroke-width:9; }
+.ring-fg{ fill:none; stroke:var(--cyan); stroke-width:9; stroke-linecap:round;
+  transform:rotate(-90deg); transform-origin:60px 60px;
+  filter:drop-shadow(0 0 6px rgba(79,216,232,.7)); transition:stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1), stroke .4s; }
+.ring-ticks line{ stroke:#2A3E5C; stroke-width:1.2; }
+.dial-num{ font-family:var(--mono); font-size:27px; font-weight:700; fill:#fff; }
+.dial-sub{ font-family:var(--mono); font-size:8.5px; letter-spacing:.18em; fill:#8FA3BC; }
+
+.shield{ margin-top:22px; }
+.shield .row{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:#8FA3BC; margin-bottom:8px; gap:10px; }
+.shield .row b{ color:var(--cyan); font-weight:600; }
+.segs{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
+.seg{ height:10px; border-radius:2px; background:#1A2840; border:1px solid #22334D; transition:background .5s, box-shadow .5s; }
+.seg.on{ background:linear-gradient(90deg,#3FC4D6,var(--cyan)); border-color:var(--cyan); box-shadow:0 0 12px rgba(79,216,232,.55); }
+
+/* ============================================================
+   ТЯЛО
+   ============================================================ */
+main{ max-width:1040px; margin:0 auto; padding:34px 16px 10px; }
+.sec-h{ display:flex; align-items:center; gap:12px; margin:36px 0 16px; }
+.sec-h .tag{ font-family:var(--mono); font-size:11.5px; letter-spacing:.22em; color:var(--grey); text-transform:uppercase; white-space:nowrap; }
+.sec-h h2{ margin:0; font-size:22px; letter-spacing:-.005em; }
+.sec-h .ln{ flex:1; height:1px; background:linear-gradient(90deg,var(--rule),transparent); }
+
+.letter{ background:#fff; border:1px solid var(--rule); border-radius:10px; padding:22px 24px; }
+.letter p{ margin:0 0 10px; }
+.letter p:last-child{ margin-bottom:0; }
+
+/* --- моментна снимка на рисковете --- */
+.radar{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+.risk{
+  position:relative; background:var(--deep); color:#DCE7F5; border-radius:8px; padding:16px 14px 14px;
+  border:1px solid var(--line); overflow:hidden;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+.risk::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--sev, var(--red)); box-shadow:0 0 12px var(--sev, var(--red)); }
+.risk .n{ font-family:var(--mono); font-size:11px; letter-spacing:.18em; color:#7D8EA5; }
+.risk .t{ font-weight:600; font-size:14.5px; line-height:1.35; margin:6px 0 10px; color:#fff; }
+.risk .lv{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--sev); }
+.risk.crit{ --sev:#FF5A4E; }
+.risk.high{ --sev:var(--orange); }
+.risk .fixed{ position:absolute; inset:0; background:rgba(7,12,20,.86); display:flex; align-items:center; justify-content:center; gap:8px;
+  font-family:var(--mono); font-size:12px; letter-spacing:.18em; color:var(--cyan); opacity:0; transition:opacity .4s; pointer-events:none; text-transform:uppercase; }
+.risk.is-fixed .fixed{ opacity:1; }
+.risk .fixed svg{ width:16px; height:16px; }
+
+.legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; font-family:var(--mono); font-size:11.5px; color:var(--grey); letter-spacing:.06em; }
+.badge{ display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; padding:3px 8px; border-radius:999px; border:1px solid; white-space:nowrap; }
+.badge.ok{ color:var(--green); border-color:rgba(14,124,71,.35); background:rgba(14,124,71,.07); }
+.badge.chk{ color:var(--amber); border-color:rgba(176,106,0,.35); background:rgba(176,106,0,.07); }
+
+/* --- карти на мерките --- */
+.measure{
+  position:relative; background:#fff; border:1px solid var(--rule); border-radius:12px;
+  margin-bottom:18px; overflow:hidden; transition:border-color .3s, box-shadow .3s;
+  break-inside:avoid-page;
+}
+.measure.done{ border-color:rgba(14,124,71,.45); box-shadow:0 0 0 3px rgba(14,124,71,.08); }
+.m-head{
+  display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center;
+  padding:18px 22px; background:var(--deep); color:#E6EEF8; position:relative;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+.m-head::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:2px;
+  background:linear-gradient(90deg, var(--cyan), rgba(79,216,232,0) 70%); opacity:.55; }
+.m-no{ font-family:var(--mono); font-size:30px; font-weight:700; color:var(--cyan); text-shadow:0 0 14px rgba(79,216,232,.5); line-height:1; }
+.m-title{ margin:0; font-size:19px; line-height:1.3; color:#fff; }
+.m-sub{ font-family:var(--mono); font-size:11.5px; letter-spacing:.12em; color:#8FA3BC; text-transform:uppercase; margin-top:4px; }
+.status{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; padding:6px 10px; border-radius:4px; border:1px solid #33475F; color:#A9B9CC; white-space:nowrap; }
+.status.prog{ color:var(--orange); border-color:rgba(245,169,63,.5); box-shadow:0 0 12px rgba(245,169,63,.15); }
+.status.ok{ color:#5BE3A0; border-color:rgba(91,227,160,.5); box-shadow:0 0 12px rgba(91,227,160,.2); }
+
+.m-body{ display:grid; grid-template-columns:1.15fr 1fr; gap:0; }
+.why{ padding:20px 22px; border-right:1px solid var(--rule); }
+.why h4, .todo h4{ margin:0 0 8px; font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; color:var(--grey); text-transform:uppercase; font-weight:600; }
+.why p{ margin:0 0 10px; }
+.why p:last-child{ margin-bottom:0; }
+.why .facts{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.callout{ border-left:3px solid var(--orange); background:#FFF8EC; padding:10px 14px; border-radius:0 6px 6px 0; margin:12px 0 0; font-size:14.5px;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.todo{ padding:20px 22px; background:#F7FAFD; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+.task{ display:flex; gap:12px; align-items:flex-start; padding:9px 10px; margin:0 -10px; border-radius:6px; cursor:pointer; user-select:none; transition:background .15s; }
+.task:hover{ background:#EAF2FA; }
+.task input{ position:absolute; opacity:0; pointer-events:none; }
+.box{ flex:0 0 20px; width:20px; height:20px; margin-top:2px; border:1.6px solid #9DB0C6; border-radius:5px; background:#fff; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+.box svg{ width:13px; height:13px; stroke:#fff; stroke-width:3; fill:none; opacity:0; transform:scale(.4); transition:all .2s; }
+.task input:checked + .box{ background:var(--green); border-color:var(--green); box-shadow:0 0 0 3px rgba(14,124,71,.15); }
+.task input:checked + .box svg{ opacity:1; transform:scale(1); }
+.task input:focus-visible + .box{ outline:2px solid var(--cyan); outline-offset:2px; }
+.task .tx{ font-size:14.5px; line-height:1.45; }
+.task input:checked ~ .tx{ color:var(--grey); text-decoration:line-through; text-decoration-color:rgba(90,107,128,.5); }
+
+.stamp{ margin-top:14px; font-family:var(--mono); font-size:12px; letter-spacing:.12em; color:var(--green); text-transform:uppercase; display:none; align-items:center; gap:8px; }
+.measure.done .stamp{ display:flex; }
+.stamp svg{ width:16px; height:16px; }
+.m-bar{ height:3px; background:var(--rule); }
+.m-bar i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--green),#22B573); transition:width .6s cubic-bezier(.2,.8,.2,1); }
+
+/* --- ценоразпис / калкулатор --- */
+.pricing{ grid-column:1 / -1; border-top:1px solid var(--rule); padding:20px 22px 22px; }
+.pricing h4{ margin:0 0 12px; font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; color:var(--grey); text-transform:uppercase; }
+.tbl-wrap{ overflow-x:auto; }
+table.price{ width:100%; border-collapse:collapse; font-size:14.5px; min-width:520px; }
+table.price th{ text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--grey); font-weight:600; padding:8px 10px; border-bottom:1px solid var(--rule); }
+table.price td{ padding:11px 10px; border-bottom:1px solid var(--rule); vertical-align:middle; }
+table.price td.num, table.price th.num{ text-align:right; font-family:var(--mono); white-space:nowrap; }
+table.price .old{ color:var(--grey); text-decoration:line-through; }
+table.price .new{ font-weight:700; color:var(--ink); }
+table.price .off{ display:inline-block; font-family:var(--mono); font-size:11px; color:var(--green); background:rgba(14,124,71,.08); border:1px solid rgba(14,124,71,.3); border-radius:4px; padding:1px 6px; }
+table.price tr.rec td:first-child{ box-shadow:inset 3px 0 0 var(--cyan); }
+.rec-tag{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:#0B7E8C; background:rgba(79,216,232,.14); border:1px solid rgba(79,216,232,.5); border-radius:4px; padding:2px 6px; margin-left:8px; text-transform:uppercase; white-space:nowrap; }
+.note-s{ font-size:13px; color:var(--grey); margin:10px 0 0; }
+
+.calc{ margin-top:18px; background:var(--void); color:#DCE7F5; border-radius:10px; padding:18px; position:relative; border:1px solid var(--line);
+  -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.calc .ttl{ font-family:var(--mono); font-size:11.5px; letter-spacing:.22em; color:var(--cyan); text-transform:uppercase; margin-bottom:12px; }
+.ctrls{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:16px; }
+.seg-ctl{ display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+.seg-ctl button{ font-family:var(--mono); font-size:12px; letter-spacing:.08em; background:transparent; color:#9FB1C7; border:0; padding:9px 14px; cursor:pointer; text-transform:uppercase; }
+.seg-ctl button + button{ border-left:1px solid var(--line); }
+.seg-ctl button.on{ background:#13324A; color:#fff; box-shadow:inset 0 -2px 0 var(--cyan); }
+.readout{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.ro{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; }
+.ro .k{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:#7D8EA5; text-transform:uppercase; }
+.ro .v{ font-family:var(--mono); font-size:22px; font-weight:700; color:#fff; margin-top:4px; white-space:nowrap; }
+.ro .v small{ font-size:12px; color:#8FA3BC; font-weight:400; }
+.ro.hl .v{ color:var(--cyan); text-shadow:0 0 14px rgba(79,216,232,.45); }
+.ro.sv .v{ color:#5BE3A0; }
+
+/* --- етап 2 --- */
+.next{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.nx{ background:#fff; border:1px dashed #B9C8DA; border-radius:10px; padding:14px; }
+.nx .k{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--grey); text-transform:uppercase; }
+.nx .t{ font-weight:600; margin-top:4px; font-size:14.5px; line-height:1.4; }
+
+/* ============================================================
+   ФУТЪР = ПОДПИС (един блок)
+   ============================================================ */
+footer.sig{
+  margin-top:40px; background:var(--void); color:#C9D6E6; position:relative; overflow:hidden;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact; break-inside:avoid;
+}
+footer.sig::before{ content:""; position:absolute; inset:0;
+  background-image:linear-gradient(rgba(79,216,232,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(79,216,232,.06) 1px, transparent 1px);
+  background-size:32px 32px;
+  mask-image:linear-gradient(90deg, transparent, #000 60%);
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 60%); }
+footer.sig::after{ content:""; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent); box-shadow:0 0 14px var(--cyan); }
+footer .in{ position:relative; z-index:1; max-width:1040px; margin:0 auto; padding:30px 16px 26px;
+  display:grid; grid-template-columns:1.1fr 1fr; gap:28px; align-items:end; }
+.regards{ font-family:var(--mono); font-size:12px; letter-spacing:.2em; color:var(--orange); text-transform:uppercase; }
+.who{ font-size:24px; font-weight:700; color:#fff; margin:6px 0 2px; letter-spacing:.01em; }
+.role{ color:#9FB1C7; font-size:14.5px; }
+.firm{ margin-top:16px; font-family:var(--mono); font-size:13px; letter-spacing:.18em; color:#E6EEF8; }
+.slogan{ font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; color:var(--cyan); text-transform:uppercase; margin-top:3px; text-shadow:0 0 10px rgba(79,216,232,.45); }
+.contacts{ list-style:none; margin:0; padding:0; display:grid; gap:10px; justify-self:end; }
+.contacts li{ display:flex; align-items:center; gap:12px; font-family:var(--mono); font-size:13.5px; }
+.contacts a{ text-decoration:none; color:#E6EEF8; border-bottom:1px solid transparent; transition:border-color .2s, color .2s; }
+.contacts a:hover{ color:var(--cyan); border-color:var(--cyan); }
+.ico{ width:32px; height:32px; flex:0 0 32px; border-radius:8px; border:1px solid var(--line); background:var(--panel); display:flex; align-items:center; justify-content:center; }
+.ico svg{ width:16px; height:16px; stroke:var(--cyan); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.docline{ grid-column:1 / -1; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:14px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; color:#7D8EA5; text-transform:uppercase; }
+.docline b{ color:var(--cyan); font-weight:600; }
+
+/* ============================================================
+   АДАПТИВНОСТ
+   ============================================================ */
+@media (max-width:900px){
+  .radar{ grid-template-columns:repeat(2,1fr); }
+  .next{ grid-template-columns:repeat(2,1fr); }
+  .readout{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:760px){
+  .hud-grid{ grid-template-columns:1fr; }
+  .m-body{ grid-template-columns:1fr; }
+  .why{ border-right:0; border-bottom:1px solid var(--rule); }
+  footer .in{ grid-template-columns:1fr; }
+  .contacts{ justify-self:start; }
+  .m-head{ grid-template-columns:auto 1fr; }
+  .m-head .status{ grid-column:1 / -1; justify-self:start; }
+}
+@media (max-width:480px){
+  .radar, .next, .readout{ grid-template-columns:1fr; }
+  .hud{ padding:20px 16px; }
+  .why, .todo, .pricing{ padding:16px; }
+  .m-head{ padding:16px; }
+}
+
+/* ============================================================
+   ПЕЧАТ / PDF
+   ============================================================ */
+@page{ size:A4; margin:12mm 11mm; }
+@media print{
+  body{ background:#fff; font-size:10.5pt; }
+  .printbar, .calc, .no-print{ display:none !important; }
+  .hero .in{ padding:16px 18px 20px; }
+  .hud{ margin-top:16px; padding:16px 18px; }
+  .hud-grid{ grid-template-columns:1fr 170px; }
+  .dial svg{ width:120px; height:120px; }
+  main{ padding:14px 0 0; max-width:none; }
+  .sec-h{ margin:18px 0 10px; }
+  .radar{ grid-template-columns:repeat(5,1fr); gap:8px; }
+  .risk{ padding:10px; }
+  .risk .t{ font-size:9.5pt; }
+  .m-body{ grid-template-columns:1.15fr 1fr; }
+  .why{ border-right:1px solid var(--rule); border-bottom:0; }
+  .sec-h.plan{ break-before:page; page-break-before:always; margin-top:0; }
+  /* картата е неделима: главата никога не остава сама в дъното на страницата */
+  .measure{ box-shadow:none; break-inside:avoid; page-break-inside:avoid; margin-bottom:12px; }
+  .task, .callout, tr, .risk, .nx, .ro{ break-inside:avoid; }
+  body{ font-size:9.6pt; line-height:1.45; }
+  .m-head{ padding:12px 16px; }
+  .m-no{ font-size:24px; }
+  .m-title{ font-size:13.5pt; }
+  .why, .todo, .pricing{ padding:12px 16px; }
+  .task{ padding:5px 10px; }
+  .callout{ padding:8px 12px; font-size:9.2pt; }
+  .task .tx{ font-size:9.4pt; }
+  .tbl-wrap{ overflow:visible; }
+  table.price{ min-width:0; font-size:9.5pt; }
+  table.price th, table.price td{ padding:7px 6px; }
+  .rec-tag{ display:inline-block; margin:2px 0 0; }
+  .task:hover{ background:none; }
+  .next{ grid-template-columns:repeat(4,1fr); }
+  footer .in{ grid-template-columns:1.1fr 1fr; padding:18px; }
+  .contacts{ justify-self:end; }
+  a{ text-decoration:none; }
+  .ring-fg, .seg.on, .m-no, .hero h1 em{ filter:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== ЛЕНТА ЗА ПЕЧАТ ===================== -->
+<div class="printbar">
+  <div class="in">
+    <div class="docno"><span>DOC //</span> NR-20261007-MK-DK</div>
+    <div class="btns">
+      <button class="btn" id="resetBtn" type="button" title="Изчиства всички отметки в този браузър">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg>
+        Нулирай
+      </button>
+      <button class="btn primary" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="6" y="14" width="12" height="7" rx="1"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/></svg>
+        Печат / Запис в PDF
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ГЛАВА ===================== -->
+<header class="hero">
+  <div class="in">
+    <div class="hero-top">
+
+      <span class="nr-logo" style="--nr-size:60px">
+        <span class="nr-atom-live" aria-hidden="true">
+          <span class="nr-scale">
+            <span class="nr-glow"></span>
+            <span class="nr-plane nr-p-y"><span class="nr-ring nr-ring-y"></span>
+              <span class="nr-arm nr-a-y"><span class="nr-orb"><span class="nr-c1"><span class="nr-c2"><span class="nr-c3"><span class="nr-el nr-el-y"></span></span></span></span></span></span>
+            </span>
+            <span class="nr-core"><svg viewBox="0 0 190 100" fill="#000814"><path d="M8,0 L20,0 L60,60 L60,0 L72,0 L80,8 L80,92 L72,100 L60,100 L20,40 L20,100 L8,100 L0,92 L0,8 Z"/><path fill-rule="evenodd" d="M108,0 L182,0 L190,8 L190,50 L182,58 L168,58 L190,100 L166,100 L144,58 L120,58 L120,100 L100,100 L100,8 Z M120,20 L170,20 L170,38 L120,38 Z"/></svg></span>
+            <span class="nr-plane nr-p-b"><span class="nr-ring nr-ring-b"></span>
+              <span class="nr-arm nr-a-b"><span class="nr-orb"><span class="nr-c1"><span class="nr-c2"><span class="nr-c3"><span class="nr-el nr-el-b"></span></span></span></span></span></span>
+            </span>
+          </span>
+        </span>
+
+        <svg class="nr-atom-print" viewBox="0 0 140 140" role="img" aria-label="NASA Robotics">
+          <defs>
+            <radialGradient id="pGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#3B82F6" stop-opacity=".40"/>
+              <stop offset="70%" stop-color="#3B82F6" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="pCore" cx="35%" cy="35%" r="72%">
+              <stop offset="0%" stop-color="#8CC0FC"/><stop offset="52%" stop-color="#3B82F6"/>
+              <stop offset="100%" stop-color="#1E40AF"/>
+            </radialGradient>
+            <radialGradient id="pElB" cx="30%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#93C5FD"/><stop offset="50%" stop-color="#3B82F6"/>
+              <stop offset="100%" stop-color="#1E40AF"/>
+            </radialGradient>
+            <radialGradient id="pElY" cx="30%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#FDE68A"/><stop offset="50%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </radialGradient>
+          </defs>
+          <circle cx="70" cy="70" r="68" fill="url(#pGlow)"/>
+          <g transform="rotate(-22 70 70)">
+            <path d="M 10,70 A 60,25.4 0 0 1 130,70" fill="none" stroke="#FBBF24" stroke-opacity=".55" stroke-width="2"/>
+            <circle cx="15.6" cy="59.3" r="9" fill="url(#pElY)"/>
+          </g>
+          <g transform="rotate(38 70 70)">
+            <path d="M 10,70 A 60,25.4 0 0 1 130,70" fill="none" stroke="#3B82F6" stroke-opacity=".55" stroke-width="2"/>
+          </g>
+          <circle cx="70" cy="70" r="40" fill="url(#pCore)"/>
+          <circle cx="70" cy="70" r="40" fill="none" stroke="#0B2A6B" stroke-opacity=".4" stroke-width="1.4"/>
+          <g transform="translate(41.50,55.00) scale(0.3000)" fill="#000814">
+            <path d="M8,0 L20,0 L60,60 L60,0 L72,0 L80,8 L80,92 L72,100 L60,100 L20,40 L20,100 L8,100 L0,92 L0,8 Z"/>
+            <path fill-rule="evenodd" d="M108,0 L182,0 L190,8 L190,50 L182,58 L168,58 L190,100 L166,100 L144,58 L120,58 L120,100 L100,100 L100,8 Z M120,20 L170,20 L170,38 L120,38 Z"/>
+          </g>
+          <g transform="rotate(-22 70 70)">
+            <path d="M 10,70 A 60,25.4 0 0 0 130,70" fill="none" stroke="#FBBF24" stroke-opacity=".95" stroke-width="2.2"/>
+          </g>
+          <g transform="rotate(38 70 70)">
+            <path d="M 10,70 A 60,25.4 0 0 0 130,70" fill="none" stroke="#3B82F6" stroke-opacity=".95" stroke-width="2.2"/>
+            <circle cx="124.4" cy="80.7" r="9" fill="url(#pElB)"/>
+          </g>
+        </svg>
+
+        <span class="nr-word">NASA Robotics</span>
+      </span>
+
+      <div class="meta">
+        <span>Документ</span><b>NR-20261007-MK-DK</b>
+        <span>Дата</span><b>07.10.2026</b>
+        <span>За</span><b>Монтажи Ко ЕООД</b>
+        <span>Статус</span><b class="live" id="metaStatus">● Активен план</b>
+      </div>
+    </div>
+
+    <div class="hud">
+      <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+      <div class="hud-grid">
+        <div>
+          <div class="kicker">// Операция „Щит" · Етап 01</div>
+          <h1>Затягаме <em>сигурността</em><br>в Монтажи Ко</h1>
+          <p class="lead">Пет мерки с най-висок приоритет. Всяка затваря конкретна врата, през която днес може да влезе проблем. Отмятаме ги тук една по една — и виждаме как щитът се пълни.</p>
+          <div class="shield">
+            <div class="row"><span>Ниво на защита</span><b id="shieldTxt">0 / 5 мерки</b></div>
+            <div class="segs" id="segs">
+              <div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div>
+            </div>
+          </div>
+        </div>
+        <div class="dial">
+          <svg viewBox="0 0 120 120" aria-label="Напредък по задачите">
+            <g class="ring-ticks" id="ticks"></g>
+            <circle class="ring-bg" cx="60" cy="60" r="46"/>
+            <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="46" stroke-dasharray="289.03" stroke-dashoffset="289.03"/>
+            <text class="dial-num" id="dialNum" x="60" y="64" text-anchor="middle">0%</text>
+            <text class="dial-sub" id="dialSub" x="60" y="80" text-anchor="middle">0 / 0 ЗАДАЧИ</text>
+          </svg>
+          <div class="lbl">Общ напредък</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== УВОД ===================== -->
+  <div class="sec-h"><span class="tag">00 · Защо сега</span><span class="ln"></span></div>
+  <div class="letter">
+    <p>Работим заедно от над 10 години и системите ви ги познавам добре — затова ще бъда директен. В момента мрежата работи, но не е защитена така, както заслужава фирма с вашия мащаб. Няма драма, няма паника — но има няколко неща, които оставени така, рано или късно ще излязат скъпо.</p>
+    <p>Подредил съм ги в етапи. <b>Етап 1</b> е тук: пет мерки, които дават най-много защита за най-малко усилие и пари. Повечето са чиста конфигурация — не изискват нов хардуер. Единственият разход е антивирусната защита, и там съм договорил добра отстъпка.</p>
+    <p>Документът е жив: всяка задача може да се отметне, когато е готова, и напредъкът се вижда веднага. 🚀</p>
+  </div>
+
+  <!-- ===================== РАДАР НА РИСКА ===================== -->
+  <div class="sec-h"><span class="tag">01 · Моментна снимка</span><h2>Къде сме днес</h2><span class="ln"></span></div>
+  <div class="radar">
+    <div class="risk crit" data-risk="m1"><div class="n">RISK-01</div><div class="t">Админ паролите са известни на повече хора, отколкото трябва</div><div class="lv">▲ Критично</div><div class="fixed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg>Затворено</div></div>
+    <div class="risk crit" data-risk="m2"><div class="n">RISK-02</div><div class="t">~90% от потребителите работят с администраторски права</div><div class="lv">▲ Критично</div><div class="fixed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg>Затворено</div></div>
+    <div class="risk high" data-risk="m3"><div class="n">RISK-03</div><div class="t">Админ конзолите на рутери и сървъри са достъпни отвън</div><div class="lv">▲ Високо</div><div class="fixed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg>Затворено</div></div>
+    <div class="risk crit" data-risk="m4"><div class="n">RISK-04</div><div class="t">Сървърите работят без антивирус, компютрите — с безплатен</div><div class="lv">▲ Критично</div><div class="fixed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg>Затворено</div></div>
+    <div class="risk high" data-risk="m5"><div class="n">RISK-05</div><div class="t">Гости и лични телефони са в една мрежа със сървъра</div><div class="lv">▲ Високо</div><div class="fixed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg>Затворено</div></div>
+  </div>
+  <div class="legend"><span class="badge ok">✓ Потвърдено</span><span>— установено лично от мен при работата по системите ви.</span></div>
+
+  <!-- ===================== МЕРКИТЕ ===================== -->
+  <div class="sec-h plan"><span class="tag">02 · План за действие</span><h2>Петте мерки</h2><span class="ln"></span></div>
+
+  <!-- ---------- 01 ---------- -->
+  <section class="measure" data-m="m1">
+    <div class="m-head">
+      <div class="m-no">01</div>
+      <div><h3 class="m-title">Нови администраторски пароли навсякъде</h3><div class="m-sub">Сървъри · Рутери · NAS · WiFi точки</div></div>
+      <div class="status" data-status>Предстои</div>
+    </div>
+    <div class="m-bar"><i></i></div>
+    <div class="m-body">
+      <div class="why">
+        <h4>Защо</h4>
+        <p>В момента админ паролите за сървърите и рутерите са известни на хора, които нямат нужда от тях в ежедневната си работа. Това не е въпрос на доверие към конкретен човек — в сигурността правилото е просто: <b>парола, която знае някой, който не трябва, се счита за компрометирана</b>. Дори без лоши намерения — тя може да бъде записана, споделена или изтекла.</p>
+        <p>Смяната е бърза, безплатна и затваря най-широката врата. Затова е номер едно.</p>
+        <div class="facts"><span class="badge ok">✓ Потвърдено</span></div>
+      </div>
+      <div class="todo">
+        <h4>Какво правим</h4>
+        <label class="task"><input type="checkbox" data-t="m1a"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Опис на всички админ акаунти — сървъри, рутери, NAS, WiFi точки за достъп</span></label>
+        <label class="task"><input type="checkbox" data-t="m1b"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Нови, уникални и дълги пароли (16+ символа) — различна за всяко устройство</span></label>
+        <label class="task"><input type="checkbox" data-t="m1c"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Съхранение в криптиран мениджър на пароли (Password Manager), а не в тетрадка или Excel</span></label>
+        <label class="task"><input type="checkbox" data-t="m1d"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Контролна проверка, че старите пароли вече не отварят нищо</span></label>
+        <div class="stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span data-date></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 02 ---------- -->
+  <section class="measure" data-m="m2">
+    <div class="m-head">
+      <div class="m-no">02</div>
+      <div><h3 class="m-title">Край на администраторските права за всички</h3><div class="m-sub">Работни станции · Стандартни потребители</div></div>
+      <div class="status" data-status>Предстои</div>
+    </div>
+    <div class="m-bar"><i></i></div>
+    <div class="m-body">
+      <div class="why">
+        <h4>Защо</h4>
+        <p>Около 90% от компютрите работят с потребители с администраторски права. Това е <b>бомба със закъснител</b>. Когато вирус влезе на такава машина — от прикачен файл, фалшив линк или заразена флашка — той получава същите права като потребителя. Тоест пълни: може да изключи защитата, да се закачи дълбоко в системата и оттам да тръгне към останалите компютри и сървъра.</p>
+        <p>Със стандартен потребител (Standard User) същият вирус удря в стена: не може да инсталира, не може да пипа системата, щетите остават локални.</p>
+        <div class="callout"><b>Честно казано:</b> има модерен зловреден софтуер, който умее да си повишава правата (Privilege Escalation) и ограниченията не го спират напълно. Но разликата между „заразен е един компютър" и „заразена е цялата мрежа" често минава точно оттук.</div>
+        <div class="facts"><span class="badge ok">✓ Потвърдено</span></div>
+      </div>
+      <div class="todo">
+        <h4>Какво правим</h4>
+        <label class="task"><input type="checkbox" data-t="m2a"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Отделен сервизен админ акаунт на всяка машина — само за поддръжката</span></label>
+        <label class="task"><input type="checkbox" data-t="m2b"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Тест на работния ви софтуер под стандартен потребител, преди да сменим правата</span></label>
+        <label class="task"><input type="checkbox" data-t="m2c"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Преминаване на всички потребители към стандартни акаунти</span></label>
+        <label class="task"><input type="checkbox" data-t="m2d"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Ясна процедура: трябва ви програма — пишете ми и я слагам отдалечено</span></label>
+        <div class="stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span data-date></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 03 ---------- -->
+  <section class="measure" data-m="m3">
+    <div class="m-head">
+      <div class="m-no">03</div>
+      <div><h3 class="m-title">Админ конзолите — само през VPN тунел</h3><div class="m-sub">Рутери · Сървъри · Отдалечен достъп</div></div>
+      <div class="status" data-status>Предстои</div>
+    </div>
+    <div class="m-bar"><i></i></div>
+    <div class="m-body">
+      <div class="why">
+        <h4>Защо</h4>
+        <p>Днес до админ панелите на рутерите и сървърите може да се стигне директно от интернет. А интернет е пълен с ботове, които денонощно сканират адреси и чукат на всяка отворена страница за вход — пробват пароли и известни уязвимости. Видима отвън страница за вход е мишена, независимо колко е добра паролата.</p>
+        <p>Решението: <b>изключваме достъпа отвън</b> и изграждаме криптиран VPN тунел. Първо се влиза във VPN-а с личен акаунт — и чак тогава админ панелите изобщо стават видими. За външния свят вратата просто изчезва.</p>
+        <div class="facts"><span class="badge ok">✓ Потвърдено</span></div>
+      </div>
+      <div class="todo">
+        <h4>Какво правим</h4>
+        <label class="task"><input type="checkbox" data-t="m3a"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Изграждане на криптиран VPN тунел с индивидуални акаунти</span></label>
+        <label class="task"><input type="checkbox" data-t="m3b"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Изключване на достъпа от интернет (WAN) до админ панелите на рутерите</span></label>
+        <label class="task"><input type="checkbox" data-t="m3c"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Преглед и затваряне на излишните пренасочени портове (Port Forwarding) към сървърите</span></label>
+        <label class="task"><input type="checkbox" data-t="m3d"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Тест отвън: конзолите не се виждат, а през VPN работят нормално</span></label>
+        <div class="stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span data-date></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 04 ---------- -->
+  <section class="measure" data-m="m4">
+    <div class="m-head">
+      <div class="m-no">04</div>
+      <div><h3 class="m-title">Истински антивирус: Bitdefender GravityZone</h3><div class="m-sub">Всички компютри · Сървъри · Централно управление</div></div>
+      <div class="status" data-status>Предстои</div>
+    </div>
+    <div class="m-bar"><i></i></div>
+    <div class="m-body">
+      <div class="why">
+        <h4>Защо</h4>
+        <p>Avast Free е безплатен продукт за домашна употреба. В среда с десетки устройства и сървъри на него не може да се разчита: няма централна конзола, няма как да видя на едно място кой компютър е защитен и кой не, няма политики и известия.</p>
+        <p>По-сериозният проблем: <b>сървърите в момента работят без никаква антивирусна защита</b>. Avast Free просто не се инсталира на сървърни операционни системи. А сървърът е сърцето — там са данните на всички.</p>
+        <p>Предлагам да минем на <b>Bitdefender GravityZone</b> — един от най-силните продукти в бранша, с една конзола за всички машини, включително сървърите.</p>
+        <div class="facts"><span class="badge ok">✓ Потвърдено</span></div>
+      </div>
+      <div class="todo">
+        <h4>Какво правим</h4>
+        <label class="task"><input type="checkbox" data-t="m4a"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Избор на пакет и срок — обсъждаме разликите заедно</span></label>
+        <label class="task"><input type="checkbox" data-t="m4b"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Покупка на 39 лиценза</span></label>
+        <label class="task"><input type="checkbox" data-t="m4c"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Премахване на Avast Free от всички машини</span></label>
+        <label class="task"><input type="checkbox" data-t="m4d"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Инсталиране на агента на Bitdefender — компютри и сървъри</span></label>
+        <label class="task"><input type="checkbox" data-t="m4e"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Централни политики, планирани сканирания и известия към мен</span></label>
+        <div class="stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span data-date></span></div>
+      </div>
+
+      <div class="pricing">
+        <h4>Цени · 39 машини · лиценз за 1 година · без ДДС</h4>
+        <div class="tbl-wrap">
+          <table class="price">
+            <thead><tr><th>Пакет</th><th class="num">Стандартна цена</th><th class="num">Вашата цена</th><th class="num">Отстъпка</th><th class="num">39 машини / месец</th></tr></thead>
+            <tbody>
+              <tr class="rec"><td><b>Business Security</b><span class="rec-tag">Препоръчвам за старт</span></td><td class="num old">2,50 €</td><td class="num new">1,38 €</td><td class="num"><span class="off">−45%</span></td><td class="num">53,82 €</td></tr>
+              <tr><td><b>Business Security Premium</b></td><td class="num old">5,50 €</td><td class="num new">2,99 €</td><td class="num"><span class="off">−46%</span></td><td class="num">116,61 €</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note-s">Цените са на машина на месец. При лиценз за <b>3 години</b> цената пада с още <b>10%</b>. Моята препоръка е да стартираме с Business Security — дава солидна основа. Ако по-късно преценим, че ни трябва по-тежка защита, минаваме на Premium. Разликите между двата пакета ще разгледаме заедно на среща.</p>
+
+        <div class="calc no-print">
+          <div class="ttl">// Калкулатор</div>
+          <div class="ctrls">
+            <div class="seg-ctl" id="pkgCtl">
+              <button type="button" data-v="std" class="on">Business Security</button>
+              <button type="button" data-v="prm">Premium</button>
+            </div>
+            <div class="seg-ctl" id="termCtl">
+              <button type="button" data-v="1" class="on">1 година</button>
+              <button type="button" data-v="3">3 години · −10%</button>
+            </div>
+          </div>
+          <div class="readout">
+            <div class="ro"><div class="k">На машина / месец</div><div class="v" id="roUnit">—</div></div>
+            <div class="ro"><div class="k">39 машини / месец</div><div class="v" id="roMonth">—</div></div>
+            <div class="ro hl"><div class="k" id="roTotalK">Общо за 1 година</div><div class="v" id="roTotal">—</div></div>
+            <div class="ro sv"><div class="k">Спестяване спрямо стандартна цена</div><div class="v" id="roSave">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 05 ---------- -->
+  <section class="measure" data-m="m5">
+    <div class="m-head">
+      <div class="m-no">05</div>
+      <div><h3 class="m-title">Отделна WiFi мрежа за гости и лични устройства</h3><div class="m-sub">Телефони · Гости · Домашни лаптопи</div></div>
+      <div class="status" data-status>Предстои</div>
+    </div>
+    <div class="m-bar"><i></i></div>
+    <div class="m-body">
+      <div class="why">
+        <h4>Защо</h4>
+        <p>Личните телефони, домашните лаптопи и устройствата на гостите са извън нашия контрол — не знаем какво има на тях и кога за последно са обновявани. Днес те са в същата мрежа като сървъра и работните компютри. Едно заразено устройство вътре е все едно сме му отворили вратата сами.</p>
+        <p>Решението е отделна гост мрежа: интернет — да, вътрешните ресурси — не. Хубавата новина — <b>настоящите точки за достъп го поддържат</b>, трябва само да се конфигурират. Нула разход.</p>
+        <div class="facts"><span class="badge ok">✓ Потвърдено</span></div>
+      </div>
+      <div class="todo">
+        <h4>Какво правим</h4>
+        <label class="task"><input type="checkbox" data-t="m5a"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Нова отделна мрежа (SSID) за гости и лични устройства</span></label>
+        <label class="task"><input type="checkbox" data-t="m5b"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Изолация: без достъп до сървъра, NAS-а и работните компютри</span></label>
+        <label class="task"><input type="checkbox" data-t="m5c"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Нова парола за вътрешната мрежа — иначе личните телефони, които я помнят, ще продължат да се закачат вътре</span></label>
+        <label class="task"><input type="checkbox" data-t="m5d"><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><span class="tx">Кратко съобщение до екипа: коя мрежа за какво е</span></label>
+        <div class="stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span data-date></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ЕТАП 2 ===================== -->
+  <div class="sec-h"><span class="tag">03 · На хоризонта</span><h2>Какво следва — Етап 2</h2><span class="ln"></span></div>
+  <div class="letter" style="margin-bottom:12px">
+    <p>Тези пет точки са с първостепенно значение и предлагам да ги изпълним с приоритет. След тях идва втори списък — по-прецизна работа по политиките за сигурност на сървърите, рутерите и работните станции. Ще го прилагаме поетапно, без да спираме работата ви.</p>
+  </div>
+  <div class="next">
+    <div class="nx"><div class="k">Сървъри</div><div class="t">Политики за сигурност и одит на достъпа</div></div>
+    <div class="nx"><div class="k">Рутери</div><div class="t">Прецизни правила на защитната стена (Firewall)</div></div>
+    <div class="nx"><div class="k">Работни станции</div><div class="t">Единни политики за всички компютри</div></div>
+    <div class="nx"><div class="k">Мониторинг</div><div class="t">Поетапно затягане и контрол на резултата</div></div>
+  </div>
+
+</main>
+
+<!-- ===================== ФУТЪР = ПОДПИС ===================== -->
+<footer class="sig">
+  <div class="in">
+    <div>
+      <div class="regards">С уважение</div>
+      <div class="who">Атанас Иванов</div>
+      <div class="role">Управител и главен компютърен специалист</div>
+      <div class="firm">НАСА РОБОТИКС ЕООД</div>
+      <div class="slogan">IT Поддръжка и киберсигурност</div>
+    </div>
+    <ul class="contacts">
+      <li><span class="ico"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><a href="tel:+359888352421">0888 352 421</a></li>
+      <li><span class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></span><a href="mailto:a.ivanov@nasa-robotics.com">a.ivanov@nasa-robotics.com</a></li>
+      <li><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><a href="https://www.nasa-robotics.com" target="_blank" rel="noopener">www.nasa-robotics.com</a></li>
+    </ul>
+    <div class="docline"><span>Документ <b>NR-20261007-MK-DK</b></span><span id="printedAt">Монтажи Ко ЕООД · Етап 1</span></div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   МОДУЛ 1 · СЪСТОЯНИЕ
+   Отметките се пазят в браузъра (localStorage) под ключа на документа.
+   Всяко четене/писане е в try/catch — ако браузърът блокира хранилището
+   (частен прозорец, политики), документът работи нормално, само без памет.
+   ===================================================================== */
+(function(){
+  var KEY = 'NR-20261007-MK-DK';
+  var state = { t:{}, d:{} };   // t: задача -> true · d: мярка -> дата на изпълнение
+
+  function load(){
+    try{ var raw = localStorage.getItem(KEY); if(raw){ var s = JSON.parse(raw); state.t = s.t || {}; state.d = s.d || {}; } }catch(e){}
+  }
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+  }
+  function today(){
+    var d = new Date();
+    return String(d.getDate()).padStart(2,'0') + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + d.getFullYear();
+  }
+
+  /* ===================================================================
+     МОДУЛ 2 · ЧЕРТАНЕ НА ЦИФЕРБЛАТА
+     40 деления около пръстена — чисто декоративни, рисуват се веднъж.
+     =================================================================== */
+  var ticks = document.getElementById('ticks');
+  for(var i=0;i<40;i++){
+    var a = i/40*Math.PI*2, r1 = 55, r2 = (i%5===0)?59:57;
+    var ln = document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('x1', 60+Math.cos(a)*r1); ln.setAttribute('y1', 60+Math.sin(a)*r1);
+    ln.setAttribute('x2', 60+Math.cos(a)*r2); ln.setAttribute('y2', 60+Math.sin(a)*r2);
+    ticks.appendChild(ln);
+  }
+
+  /* ===================================================================
+     МОДУЛ 3 · ОБНОВЯВАНЕ НА ИЗГЛЕДА
+     Зависи от модул 1 (state). Мярка е „Изпълнена", когато всичките ѝ
+     задачи са отметнати — тогава ѝ се слага дата, а рискът в радара
+     се маркира като затворен. Махне ли се отметка, датата се изчиства.
+     =================================================================== */
+  var CIRC = 2*Math.PI*46;
+  var measures = Array.prototype.slice.call(document.querySelectorAll('.measure'));
+  var allBoxes = Array.prototype.slice.call(document.querySelectorAll('.task input'));
+
+  function render(){
+    var totalT = allBoxes.length, doneT = 0, doneM = 0;
+    measures.forEach(function(m){
+      var id = m.getAttribute('data-m');
+      var boxes = Array.prototype.slice.call(m.querySelectorAll('.task input'));
+      var n = boxes.filter(function(b){ return b.checked; }).length;
+      doneT += n;
+      var full = n === boxes.length, some = n > 0;
+      if(full){ doneM++; if(!state.d[id]) state.d[id] = today(); }
+      else { delete state.d[id]; }
+
+      m.classList.toggle('done', full);
+      m.querySelector('.m-bar i').style.width = (n/boxes.length*100) + '%';
+      var st = m.querySelector('[data-status]');
+      st.className = 'status' + (full ? ' ok' : some ? ' prog' : '');
+      st.textContent = full ? '✓ Изпълнено' : some ? 'В процес · ' + n + '/' + boxes.length : 'Предстои';
+      m.querySelector('[data-date]').textContent = full ? 'Изпълнено на ' + state.d[id] : '';
+
+      var risk = document.querySelector('[data-risk="'+id+'"]');
+      if(risk) risk.classList.toggle('is-fixed', full);
+    });
+
+    var pct = totalT ? Math.round(doneT/totalT*100) : 0;
+    var fg = document.getElementById('ringFg');
+    fg.style.strokeDasharray = CIRC;
+    fg.style.strokeDashoffset = CIRC * (1 - doneT/totalT);
+    fg.style.stroke = pct === 100 ? '#5BE3A0' : '';
+    document.getElementById('dialNum').textContent = pct + '%';
+    document.getElementById('dialSub').textContent = doneT + ' / ' + totalT + ' ЗАДАЧИ';
+
+    var segs = document.querySelectorAll('#segs .seg');
+    for(var s=0;s<segs.length;s++) segs[s].classList.toggle('on', s < doneM);
+    document.getElementById('shieldTxt').textContent = doneM + ' / 5 мерки';
+    document.getElementById('metaStatus').textContent = doneM === 5 ? '● Етап 1 завършен' : '● Активен план';
+    save();
+  }
+
+  /* ===================================================================
+     МОДУЛ 4 · ВРЪЗВАНЕ НА ОТМЕТКИТЕ И БУТОНА „НУЛИРАЙ"
+     =================================================================== */
+  load();
+  allBoxes.forEach(function(b){
+    var id = b.getAttribute('data-t');
+    b.checked = !!state.t[id];
+    b.addEventListener('change', function(){
+      if(b.checked) state.t[id] = true; else delete state.t[id];
+      render();
+    });
+  });
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    if(!confirm('Да изчистя ли всички отметки в този браузър?')) return;
+    state = { t:{}, d:{} };
+    allBoxes.forEach(function(b){ b.checked = false; });
+    render();
+  });
+  render();
+
+  /* ===================================================================
+     МОДУЛ 5 · КАЛКУЛАТОР НА ЦЕНАТА (Bitdefender GravityZone)
+     Цените са от предложението: стандартна / наша, € без ДДС, на машина
+     на месец. 3 години = още −10% от нашата цена.
+     =================================================================== */
+  var PRICES = { std:{ list:2.50, our:1.38 }, prm:{ list:5.50, our:2.99 } };
+  var SEATS = 39, calc = { pkg:'std', term:1 };
+  function eur(v){ return v.toLocaleString('bg-BG',{ minimumFractionDigits:2, maximumFractionDigits:2 }) + ' €'; }
+  function calcRender(){
+    var p = PRICES[calc.pkg];
+    var unit = p.our * (calc.term === 3 ? 0.9 : 1);
+    var month = unit * SEATS;
+    var total = month * 12 * calc.term;
+    var listTotal = p.list * SEATS * 12 * calc.term;
+    document.getElementById('roUnit').textContent = eur(unit);
+    document.getElementById('roMonth').textContent = eur(month);
+    document.getElementById('roTotalK').textContent = 'Общо за ' + (calc.term === 3 ? '3 години' : '1 година');
+    document.getElementById('roTotal').textContent = eur(total);
+    document.getElementById('roSave').textContent = eur(listTotal - total);
+  }
+  function bindSeg(id, key, parse){
+    var el = document.getElementById(id);
+    el.addEventListener('click', function(e){
+      var btn = e.target.closest('button'); if(!btn) return;
+      Array.prototype.forEach.call(el.querySelectorAll('button'), function(x){ x.classList.toggle('on', x === btn); });
+      calc[key] = parse(btn.getAttribute('data-v'));
+      calcRender();
+    });
+  }
+  bindSeg('pkgCtl', 'pkg', function(v){ return v; });
+  bindSeg('termCtl', 'term', function(v){ return parseInt(v,10); });
+  calcRender();
+
+  /* ===================================================================
+     МОДУЛ 6 · ПЕЧАТ
+     В PDF-а влиза моментното състояние на отметките + датата на печат.
+     =================================================================== */
+  window.addEventListener('beforeprint', function(){
+    document.getElementById('printedAt').textContent = 'Състояние към ' + today() + ' · Монтажи Ко ЕООД · Етап 1';
+  });
+  window.addEventListener('afterprint', function(){
+    document.getElementById('printedAt').textContent = 'Монтажи Ко ЕООД · Етап 1';
+  });
+})();
+</script>
+</body>
+</html>
